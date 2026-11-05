@@ -111,7 +111,7 @@ Requires Docker with Compose.
 ```sh
 git clone https://github.com/omnara-ai/omnara.git
 cd omnara
-docker compose -f compose.yaml --profile app up -d
+docker compose -f compose.yaml -f compose.local.yaml --profile app up -d
 ```
 
 Open [http://localhost:8000](http://localhost:8000) and sign up. Local

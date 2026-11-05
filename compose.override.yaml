@@ -1,7 +1,10 @@
 # Auto-loaded in a repo checkout: builds the app services from source instead
 # of pulling the published release images, and tags them with local names so
 # they never masquerade as ghcr.io releases. Run the published images from a
-# checkout with `docker compose -f compose.yaml --profile app up`.
+# checkout with `docker compose -f compose.yaml -f compose.local.yaml --profile app up`.
+
+include:
+  - compose.local.yaml
 
 services:
   migrate:

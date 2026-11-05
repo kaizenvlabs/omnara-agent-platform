@@ -172,8 +172,10 @@ services:
   gateway:
     profiles: ["app"]
     image: nginxinc/nginx-unprivileged:1.29.5-alpine
-    ports:
-      - "${GATEWAY_HOST_PORT:-8000}:8080"
+    # Published on the host only by compose.local.yaml (local Compose use).
+    # Proxy-based deployments route to this container port directly.
+    expose:
+      - "8080"
     configs:
       - source: gateway-nginx
         target: /etc/nginx/conf.d/default.conf

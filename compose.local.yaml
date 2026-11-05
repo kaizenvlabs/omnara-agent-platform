@@ -1,0 +1,8 @@
+# Local-only host access to the gateway. Proxy-based deployments (Coolify,
+# Kubernetes, a reverse proxy in front of Compose) use compose.yaml alone and
+# route to the gateway's container port 8080; publishing a host port there can
+# collide with the proxy or the platform's own dashboard.
+services:
+  gateway:
+    ports:
+      - "${GATEWAY_HOST_PORT:-8000}:8080"

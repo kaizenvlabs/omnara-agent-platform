@@ -15,11 +15,13 @@ git clone https://github.com/omnara-ai/omnara && cd omnara
 docker compose --profile app up -d --build
 ```
 
-That builds from source (a checkout auto-loads `compose.override.yaml`). To run published release images instead, use the base file alone, optionally pinning a release with `OMNARA_RELEASE`:
+That builds from source (a checkout auto-loads `compose.override.yaml`, which also includes the local host-port mapping from `compose.local.yaml`). To run published release images instead, use the base file plus the local port mapping, optionally pinning a release with `OMNARA_RELEASE`:
 
 ```sh
-docker compose -f compose.yaml --profile app up -d
+docker compose -f compose.yaml -f compose.local.yaml --profile app up -d
 ```
+
+`compose.yaml` deliberately does not publish the gateway on a host port. Proxy-based deployments such as Coolify connect the proxy to the Compose network and route to the gateway's container port `8080`, so publishing `8000` on the host would only risk a collision with the proxy or the platform's dashboard.
 
 Open `http://localhost:8000` and sign up — the local email driver is `console`, so the verification link will appear in `docker compose logs api`.
 
