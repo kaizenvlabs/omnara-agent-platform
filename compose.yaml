@@ -71,7 +71,6 @@ services:
       - |
         curl -fsS -o /dev/null -X PUT --aws-sigv4 'aws:amz:us-east-1:s3' --user 'omnara:omnara-blobs' http://rustfs:9000/omnara
         curl -fsS -o /dev/null -X PUT --aws-sigv4 'aws:amz:us-east-1:s3' --user 'omnara:omnara-blobs' http://rustfs:9000/omnara-test
-    command: []
     restart: "no"
 
   # One-shot schema migration: app services depend on its successful exit and
@@ -184,10 +183,13 @@ services:
         condition: service_started
     restart: unless-stopped
 
+# Explicit empty mappings, not bare keys: a bare `memory-data:` is null, and
+# YAML round-tripping tools (e.g. Coolify's parser) drop null volume entries,
+# leaving the services above referencing undefined volumes.
 volumes:
-  memory-data:
-  postgres18-data:
-  rustfs-data:
+  memory-data: {}
+  postgres18-data: {}
+  rustfs-data: {}
 
 networks:
   default:
